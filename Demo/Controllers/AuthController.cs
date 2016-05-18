@@ -14,6 +14,13 @@ namespace Demo.Controllers
         public ActionResult Login()
         {
             var model = new LoginModel();
+
+            var providers = HttpContext.GetOwinContext()
+                .Authentication
+                .GetAuthenticationTypes(x => !string.IsNullOrEmpty(x.Caption))
+                .ToList();
+            model.AuthProviders = providers;
+
             return View(model);
         }
 
@@ -46,6 +53,15 @@ namespace Demo.Controllers
             {
                 RedirectUri = "/secret",
             },"Facebook");
+            return new HttpUnauthorizedResult();
+        }
+
+        public ActionResult SocialLogin(string id)
+        {
+            HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties
+            {
+                RedirectUri = "/secret",
+            }, id);
             return new HttpUnauthorizedResult();
         }
     }

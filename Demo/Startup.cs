@@ -9,6 +9,7 @@ using Demo.Middleware;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Facebook;
+using Microsoft.Owin.Security.Twitter;
 using Nancy;
 using Nancy.Owin;
 using Owin;
@@ -62,6 +63,14 @@ namespace Demo
                 AppId = "1624010771256816",
                 AppSecret = "a599b8a0ac81e55aa3ca669e4157d705",
                 SignInAsAuthenticationType = "ApplicationCookie"
+            });
+
+            app.UseTwitterAuthentication(new TwitterAuthenticationOptions
+            {
+                ConsumerKey = "	PdyW3EsVHd3dU16rZdFGLCOQ5",
+                ConsumerSecret = "dTGGXGUNM7fyPgLTdVpDgu7whmWCHSPkaqVIgeMX89ni4JKymn",
+                SignInAsAuthenticationType = "ApplicationCookie",
+                BackchannelCertificateValidator = null
             });
 
             app.Use(async (context, next) =>

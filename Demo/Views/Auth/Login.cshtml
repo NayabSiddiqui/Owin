@@ -28,6 +28,10 @@
             </div>
         }
     </div>
-    <div>@Html.ActionLink("Login with Facebook","LoginFacebook")</div>
+    @foreach (var provider in Model.AuthProviders)
+    {
+        <div>@Html.ActionLink("Login with " + provider.Caption, "SocialLogin",
+        new {id = provider.AuthenticationType})</div>
+    }
 </body>
 </html>
