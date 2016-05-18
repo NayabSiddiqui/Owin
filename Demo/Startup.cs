@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Web;
 using Demo.Middleware;
+using Nancy;
+using Nancy.Owin;
 using Owin;
 
 namespace Demo
@@ -44,6 +46,8 @@ namespace Demo
                     Debug.WriteLine("Request took: " + watch.ElapsedMilliseconds + " ms");
                 }
             });
+
+            app.UseNancy(config => config.PassThroughWhenStatusCodesAre(HttpStatusCode.NotFound));
 
             app.Use(async (context, next) =>
             {
