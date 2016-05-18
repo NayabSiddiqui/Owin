@@ -54,7 +54,8 @@ namespace Demo
 
             app.UseNancy(config => config.PassThroughWhenStatusCodesAre(HttpStatusCode.NotFound));
 
-            app.Use(async (context, next) =>
+            // TODO: commented out so that the routes can default back to MVC
+          /*  app.Use(async (context, next) =>
             {
                 await context.Response.WriteAsync("<html>" +
                                                   "<head></head>" +
@@ -62,7 +63,7 @@ namespace Demo
                                                   "Hello World" +
                                                   "</body>" +
                                                   "</html>");
-            });
+            });*/
         }
     }
 }
