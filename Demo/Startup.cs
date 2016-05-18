@@ -6,6 +6,8 @@ using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Http;
 using Demo.Middleware;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
 using Nancy;
 using Nancy.Owin;
 using Owin;
@@ -48,14 +50,21 @@ namespace Demo
                 }
             });
 
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = "ApplicationCookie",
+                LoginPath = new PathString("/Auth/Login")
+            });
+
             var httpConfiguration = new HttpConfiguration();
             httpConfiguration.MapHttpAttributeRoutes();
             app.UseWebApi(httpConfiguration);
 
-            app.UseNancy(config => config.PassThroughWhenStatusCodesAre(HttpStatusCode.NotFound));
+            app.Map("/nancy", mappedApp => mappedApp.UseNancy());
+            //            app.UseNancy(config => config.PassThroughWhenStatusCodesAre(HttpStatusCode.NotFound));
 
             // TODO: commented out so that the routes can default back to MVC
-          /*  app.Use(async (context, next) =>
+            /*  app.Use(async (context, next) =>
             {
                 await context.Response.WriteAsync("<html>" +
                                                   "<head></head>" +
