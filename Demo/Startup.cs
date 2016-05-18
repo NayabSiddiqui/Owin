@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Web;
+using System.Web.Http;
 using Demo.Middleware;
 using Nancy;
 using Nancy.Owin;
@@ -46,6 +47,10 @@ namespace Demo
                     Debug.WriteLine("Request took: " + watch.ElapsedMilliseconds + " ms");
                 }
             });
+
+            var httpConfiguration = new HttpConfiguration();
+            httpConfiguration.MapHttpAttributeRoutes();
+            app.UseWebApi(httpConfiguration);
 
             app.UseNancy(config => config.PassThroughWhenStatusCodesAre(HttpStatusCode.NotFound));
 
