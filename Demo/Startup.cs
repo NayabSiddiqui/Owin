@@ -56,6 +56,16 @@ namespace Demo
                 LoginPath = new PathString("/Auth/Login")
             });
 
+            app.Use(async (context, next) =>
+            {
+                if (context.Authentication.User.Identity.IsAuthenticated)
+                    Debug.WriteLine("User: " + context.Authentication.User.Identity.Name);
+                else
+                    Debug.WriteLine("User not authenticated !");
+
+                await next();
+            });
+
             var httpConfiguration = new HttpConfiguration();
             httpConfiguration.MapHttpAttributeRoutes();
             app.UseWebApi(httpConfiguration);
