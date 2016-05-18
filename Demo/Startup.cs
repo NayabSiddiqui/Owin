@@ -8,6 +8,7 @@ using System.Web.Http;
 using Demo.Middleware;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Nancy;
 using Nancy.Owin;
 using Owin;
@@ -54,6 +55,13 @@ namespace Demo
             {
                 AuthenticationType = "ApplicationCookie",
                 LoginPath = new PathString("/Auth/Login")
+            });
+
+            app.UseFacebookAuthentication(new FacebookAuthenticationOptions
+            {
+                AppId = "1624010771256816",
+                AppSecret = "a599b8a0ac81e55aa3ca669e4157d705",
+                SignInAsAuthenticationType = "ApplicationCookie"
             });
 
             app.Use(async (context, next) =>

@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using Demo.Models;
+using Microsoft.Owin.Security;
 
 namespace Demo.Controllers
 {
@@ -37,6 +38,15 @@ namespace Demo.Controllers
         {
             HttpContext.GetOwinContext().Authentication.SignOut();
             return Redirect("/");
+        }
+
+        public ActionResult LoginFacebook()
+        {
+            HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties
+            {
+                RedirectUri = "/secret",
+            },"Facebook");
+            return new HttpUnauthorizedResult();
         }
     }
 }
